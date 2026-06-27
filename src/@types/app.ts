@@ -90,3 +90,17 @@ export interface Week<T> {
   desc: string;
   days: Day<T>[];
 }
+
+// Summary statistics for a single RacePlan, used to compare two plans.
+// All distances are expressed in `units`.
+export interface PlanMetrics {
+  units: Units;
+  weekCount: number;
+  totalDistance: number;
+  avgWeeklyDistance: number;
+  peakWeeklyDistance: number;
+  peakWeek: number; // 1-based week number where peak mileage occurs
+  longestRun: number;
+  qualityDaysPerWeek: number; // avg days/week tagged Speedwork or Hills
+  restDaysPerWeek: number; // avg days/week tagged Rest
+}
