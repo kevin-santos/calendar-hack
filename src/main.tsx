@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import "@fontsource-variable/inter";
 import "./css/reset.css";
 import "./index.css";
 import Index from "./Index";

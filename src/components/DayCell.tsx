@@ -59,11 +59,11 @@ export const DayCell = ({
           />
         )}
         {!dayDetails && <BlankCard date={date} />}
-        {isOver && !canDrop && <Overlay color="pink" />}
-        {isOver && canDrop && <Overlay color="lightgreen" />}
+        {isOver && !canDrop && <Overlay color="var(--signal-down)" />}
+        {isOver && canDrop && <Overlay color="var(--signal-up)" />}
 
-        {dayDetails && selected && <Overlay color="pink" />}
-        {dayDetails && !selected && hovering && <Overlay color="lightgreen" />}
+        {dayDetails && selected && <Overlay color="var(--accent)" />}
+        {dayDetails && !selected && hovering && <Overlay color="var(--accent)" />}
       </div>
     </div>
   );

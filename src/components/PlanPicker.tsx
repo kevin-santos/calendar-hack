@@ -1,6 +1,8 @@
 import React from "react";
 import { PlanSummary } from "types/app";
 import { REMOVED_PLANS } from "../ch/config";
+import { SHOW_REMOVED_PLANS } from "../ch/featureFlags";
+import { repo } from "../ch/planrepo";
 
 interface Props {
   availablePlans: PlanSummary[];
@@ -25,10 +27,13 @@ const PlanPicker = ({
   };
 
   const planOptions = availablePlans.map((ap) => {
-    const isRemoved = REMOVED_PLANS.has(ap[0]);
+    const isRemoved = !SHOW_REMOVED_PLANS && REMOVED_PLANS.has(ap[0]);
+    const isCustom = repo.isCustom(ap[0]);
     const label = isRemoved
       ? `❌ (${ap[2]}) ${ap[1]}`
-      : `(${ap[2]}) ${ap[1]}`;
+      : isCustom
+        ? `★ (${ap[2]}) ${ap[1]}`
+        : `(${ap[2]}) ${ap[1]}`;
     return (
       <option
         key={ap[1]}

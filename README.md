@@ -35,10 +35,14 @@ If you are adding a new plan or modifying an existing one, you should work with 
 
 A simple program then converts the YAML plans to JSON for the application to consume:
 ```
-python3 -m venv my_env
+python3 -m venv venv
 source ./venv/bin/activate
 pip install pyyaml
 python3 ./bin/convertPlans
 ```
+
+`convertPlans` resolves paths relative to its own location, so it can be run from any directory.
+
+See [docs/adding-plans.md](docs/adding-plans.md) for the full plan format, a copy-paste template, and the two ways to add a plan (in-app importer or the repo workflow).
 
 TODO: automate this step 

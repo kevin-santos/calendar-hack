@@ -1,20 +1,14 @@
 #!/usr/local/bin/python3
 import yaml
 import json
-import sys
 import os
-import glob
 
-CH_DIR = 'calendar-hack'
+# Repo root is the parent of this script's bin/ directory. Deriving paths from
+# the script location works regardless of cwd or what the repo folder is named
+# (e.g. when checked out as "accra" inside a Conductor workspace).
+d = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# find the calendar hack dir
-d = os.getcwd()
-while os.path.basename(d) and os.path.basename(d) != CH_DIR:
-    d = os.path.dirname(d)
-if os.path.basename(d) != CH_DIR:
-    sys.exit("Could not find directory {}".format(CH_DIR))
-
-# find all yaml plan files in calendar-hack/public/plans/yaml
+# find all yaml plan files in <repo>/public/plans/yaml
 src_path = os.path.join(d, "public", "plans", "yaml")
 out_path = os.path.join(d, "public", "plans", "json")
 print("Looking in {}".format(src_path))

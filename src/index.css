@@ -1,126 +1,138 @@
+/* ============================================================
+   Design tokens — clean-neutral theme (light, dark-ready)
+   Legacy token names are kept as semantic aliases so the whole
+   app re-themes from this block. Flip to dark later by overriding
+   the semantic tokens under [data-theme="dark"].
+   ============================================================ */
 :root {
-  --app-bg-color: #677c96;
-  --focus-color: #FF6FDF;
-  --primary-color: #B391D2;
-  --secondary-color: #C2C5EB;
-  --text-color: #424242;
-  --card-color: #E3F7F8;
-  --link-color: var(--primary-color);
-  --disabled-fg-color: #fff;
-  --disabled-bg-color: #dddddd;
-  --elt-border: 1px solid rgba(0, 0, 0, 0.125);
-  --controls-fg-color: var(--text-color);
-  --controls-bg-color: #E3F7F8;
+  color-scheme: light;
+
+  /* neutral ramp (cool gray) */
+  --gray-0: #ffffff;
+  --gray-50: #f6f7f9;
+  --gray-100: #eef0f3;
+  --gray-150: #e7eaee;
+  --gray-200: #dce0e6;
+  --gray-300: #c6ccd4;
+  --gray-400: #99a1ad;
+  --gray-500: #6b7480;
+  --gray-600: #4d5560;
+  --gray-700: #353c45;
+  --gray-800: #21262d;
+  --gray-900: #14181d;
+
+  /* accent — azure #0088FF */
+  --accent: #0088ff;
+  --accent-hover: #0a7bea;
+  --accent-active: #0a6ccc;
+  --accent-soft: #e8f3ff;
+  --accent-softer: #f3f9ff;
+  --accent-contrast: #ffffff;
+
+  /* signals (meaningful only — not decoration) */
+  --signal-up: #1a8a4d;
+  --signal-up-soft: #e7f6ed;
+  --signal-down: #c63a2e;
+  --signal-down-soft: #fdecea;
+
+  /* semantic surfaces / text / borders */
+  --surface: var(--gray-50);
+  --surface-raised: var(--gray-0);
+  --surface-subtle: var(--gray-100);
+  --surface-sunken: var(--gray-100);
+  --text: var(--gray-900);
+  --text-muted: var(--gray-500);
+  --text-subtle: var(--gray-400);
+  --border: var(--gray-200);
+  --border-strong: var(--gray-300);
+  --focus-ring: var(--accent);
+
+  /* shape */
+  --radius-sm: 7px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
+  /* elevation (reserved for genuinely raised layers) */
+  --shadow-sm: 0 1px 2px rgba(20, 24, 29, 0.05), 0 1px 1px rgba(20, 24, 29, 0.04);
+  --shadow-md: 0 6px 16px rgba(20, 24, 29, 0.08), 0 2px 6px rgba(20, 24, 29, 0.05);
+  --shadow-lg: 0 16px 40px rgba(20, 24, 29, 0.16), 0 4px 12px rgba(20, 24, 29, 0.08);
+
+  /* legacy aliases → semantic (do not hand-author these names in new rules) */
+  --app-bg-color: var(--surface);
+  --card-color: var(--surface-raised);
+  --secondary-color: var(--surface-subtle);
+  --primary-color: var(--accent);
+  --focus-color: var(--accent);
+  --text-color: var(--text);
+  --controls-bg-color: var(--surface-raised);
+  --controls-fg-color: var(--text);
+  --link-color: var(--accent);
+  --disabled-bg-color: var(--gray-100);
+  --disabled-fg-color: var(--gray-400);
+  --elt-border: 1px solid var(--border);
+
+  --font-sans: "Inter Variable", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* ============================================================
+   Base
+   ============================================================ */
 body {
-    padding: 0;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-    color: var(--text-color);
-    background-color: var(--app-bg-color);
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  background-color: var(--surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv05", "ss01";
 }
 
 a {
   color: var(--link-color);
   text-decoration: none;
   background-color: transparent;
-  &:hover {
-    color: var(--focus-color);
-  }
+  transition: color 0.15s ease;
+}
+a:link,
+a:visited,
+a:active {
+  color: var(--link-color);
+}
+a:hover {
+  color: var(--accent-hover);
 }
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-bottom: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.2;
-  color: var(--card-color);
+  letter-spacing: -0.011em;
+  color: var(--text);
+}
+h1, .h1 { font-size: 2rem; letter-spacing: -0.02em; }
+h2, .h2 { font-size: 1.5rem; letter-spacing: -0.015em; }
+h3, .h3 { font-size: 1.25rem; }
+h4, .h4 { font-size: 1.125rem; }
+h5, .h5 { font-size: 1rem; }
+h6, .h6 { font-size: 0.875rem; }
+
+/* one consistent keyboard focus ring everywhere */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
-h1, .h1 { font-size: 2.5rem }
-h2, .h2 { font-size: 2rem }
-h3, .h3 { font-size: 1.75rem }
-h4, .h4 { font-size: 1.5rem }
-h5, .h5 { font-size: 1.25rem }
-h6, .h6 { font-size: 1rem }
-
-.select {
-  display: inline;
-  font-size: 16px;
-  font-weight: 900;
-  color: var(--text-color);
-  line-height: 1.3;
-  padding: 0.6em 1.4em 0.5em 0.8em;
-  margin: 0 2px;
-  max-width: 100%;
-  border-radius: 0.5em;
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  background-color: var(--controls-bg-color);
-  border: 1px solid var(--primary-color);
-  &:focus {
-    outline: none;
-  }
-  &:hover {
-    border: 1px solid var(--focus-color);
-  }
-}
-
-@media (min-width: 576px) {
-  .app { max-width: 540px; }
-}
-@media (min-width: 768px) {
-  .app { max-width: 720px; }
-}
-@media (min-width: 992px) {
-  .app { max-width: 960px; }
-}
-@media (min-width: 1200px) {
-  .app { max-width: 1140px; }
-}
-
-a:link {
-  color: var(--link-color);
-}
-a:visited {
-  color: var(--link-color);
-}
-a:hover {
-  color: var(--focus-color);
-}
-a:active {
-  color: var(--link-color);
-}
-
-.about-container {
-  background-color: var(--card-color); 
-  border: 3px solid var(--secondary-color);
-  border-radius: 5px;
-  padding: 1.5em 1em 1em 1em;
-  font-weight: 400;
-  color: var(--text-color);
-  margin: 0 0 1em 0;
-  hr {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border: 0;
-    border-top: 1px solid rgba(0,0,0,.1);
-  }
-  p {
-    margin-top: 0;
-    margin-bottom: 1rem;  
-  }
-  h3{
-    margin-top: .2em;
-    font-weight: 700;
-    color: var(--text-color);
-  }
-}
-
+/* ============================================================
+   Layout containers (unchanged structure)
+   ============================================================ */
 .app {
   width: 100%;
   padding-right: 15px;
@@ -130,11 +142,16 @@ a:active {
   margin-left: auto;
   margin-bottom: 2em;
 }
+@media (min-width: 576px) { .app { max-width: 540px; } }
+@media (min-width: 768px) { .app { max-width: 720px; } }
+@media (min-width: 992px) { .app { max-width: 960px; } }
+@media (min-width: 1200px) { .app { max-width: 1140px; } }
 
 .toolbar {
   display: grid;
   grid-template-columns: 10% auto 10%;
   margin: 5px;
+  align-items: center;
   h1 {
     display: inline;
     margin: 0 0.4em;
@@ -146,140 +163,258 @@ a:active {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  gap: 0.5em;
   margin: 1em 0 5px 0;
   @media (max-width: 992px) {
     flex-direction: column;
   }
 }
 
-.radio-label {
-  font-size: 1em;
-  font-weight: 900;
-  z-index: 12;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.main-ui {
+  margin-top: 2em;
+  padding: 5px;
 }
 
-.radio-button {
-  position: relative;
-  border-radius: 50%;
-  width: 2.2em;
-  height: 2.2em;
-  z-index: 10;
-  color: var(--text-color);
-  margin: 0 0.1em;
+/* ============================================================
+   Header / tool buttons
+   ============================================================ */
+.tools-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 5px 0;
+}
+.tools-middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & > h1 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  @media (max-width: 576px) {
+    & > h1 { font-size: 1.5em; }
+  }
+  h1 { display: inline; margin: 0 0.4em; }
+}
+.tools-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 5px 0;
+}
+.tool-button {
+  border-radius: var(--radius-full);
+  padding: 3px;
+  color: var(--text-muted);
+  &:hover { cursor: pointer; }
+}
+.tool-button a {
+  & > svg {
+    width: 2em;
+    height: 2em;
+    display: block;
+    margin-left: -2px;
+    margin-right: auto;
+    color: var(--text-muted);
+    transition: color 0.15s ease;
+    &:hover { color: var(--accent); }
+  }
+}
+.tool-button a.active {
+  pointer-events: None;
+  & > svg { fill: var(--text-subtle); }
+}
 
+/* ============================================================
+   Buttons
+   ============================================================ */
+.app-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+  padding: 0.55em 0.9em;
+  margin: 0;
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  appearance: none;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.05s ease;
   &:hover {
-    cursor: pointer;
+    background-color: var(--gray-50);
+    border-color: var(--border-strong);
   }
-  &::after {
-    content: "";
-    width: 1.9em;
-    height: 1.9em;
-    border-radius: 50%;
-    background-color: var(--card-color);
-    opacity: 1;
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  &:active { transform: translateY(0.5px); }
+  &:disabled {
+    background: var(--disabled-bg-color);
+    color: var(--disabled-fg-color);
+    border-color: var(--border);
+    box-shadow: none;
+    cursor: not-allowed;
+    &:hover { background: var(--disabled-bg-color); border-color: var(--border); }
   }
 }
 
-.radio-input {
-  position: absolute;
-  visibility: hidden;
-  display: none;
-  &:checked + .radio-button {
-    background-color: var(--focus-color);
-    &:hover {
-      cursor: not-allowed;
-    }
-    &:after {
-      margin: auto;
-      opacity: 1;
-      background-color: var(--controls-bg-color);
-    }
+/* primary call-to-action */
+.app-button-primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+  box-shadow: var(--shadow-sm);
+  &:hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
   }
-  &:not(:checked) + .radio-button {
-    background-color: var(--controls-bg-color);
+  &:disabled {
+    background: var(--disabled-bg-color);
+    border-color: var(--border);
+    color: var(--disabled-fg-color);
   }
 }
 
-.units {
-  @media (max-width: 992px) {
-    margin-top: 0.5em;
+/* ============================================================
+   Select & radio toggles
+   ============================================================ */
+.select {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+  padding: 0.5em 2em 0.5em 0.8em;
+  margin: 0;
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  appearance: none;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  /* custom chevron */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7480' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.7em center;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  &:hover { border-color: var(--border-strong); }
+  &:focus { outline: none; }
+  &:focus-visible {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
   }
 }
 
+.units { @media (max-width: 992px) { margin-top: 0.5em; } }
 .units-panel {
   display: flex;
   justify-content: center;
   font-size: 18px;
 }
 
-.day-header {
-  svg {
-    width: 1em;
-  }
-  div {
-    text-align: center;
-    width: 100%;
-  }
+.radio-label {
+  font-size: 0.85em;
   font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-content: stretch;
-  align-items: center;
-  padding: 2px 4px;
-  text-align: center;
-  border: var(--elt-border);
-  border-radius: 0.25rem;
-  background-color: var(--secondary-color);
-  @media (max-width: 992px) {
-    display: none;
+  z-index: 12;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: inherit;
+}
+.radio-button {
+  position: relative;
+  border-radius: var(--radius-full);
+  width: 2.2em;
+  height: 2.2em;
+  z-index: 10;
+  color: var(--text);
+  margin: 0 0.15em;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  &:hover { cursor: pointer; }
+  &::after {
+    content: "";
+    width: 1.9em;
+    height: 1.9em;
+    border-radius: var(--radius-full);
+    background-color: var(--surface-raised);
+    opacity: 1;
+    position: absolute;
+    margin: auto;
+    top: 0; left: 0; bottom: 0; right: 0;
+  }
+}
+.radio-input {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+  &:checked + .radio-button {
+    background-color: var(--accent);
+    color: var(--accent-contrast);
+    &:hover { cursor: not-allowed; }
+    &:after {
+      margin: auto;
+      opacity: 1;
+      background-color: var(--accent);
+    }
+  }
+  &:not(:checked) + .radio-button {
+    background-color: var(--surface-raised);
+    box-shadow: inset 0 0 0 1px var(--border);
+    &:after { background-color: var(--surface-raised); }
   }
 }
 
-svg.drag-handle {
-  /*
-   See the following link for an example (and tool) to convert hex values to a corresponding CSS filter:
-   https://stackoverflow.com/questions/22252472/how-can-i-change-the-color-of-an-svg-element
-   */
-  filter: invert(74%) sepia(15%) saturate(1566%) hue-rotate(214deg) brightness(83%) contrast(98%);
-  &:hover {
-    filter: invert(72%) sepia(29%) saturate(5023%) hue-rotate(283deg) brightness(101%) contrast(108%);
-  }
-  cursor: grab;
-}
-
-.dragging {
-  opacity: 0.5;
-}
-
+/* ============================================================
+   Plan / date pickers & labels
+   (these labels used to be light-on-dark — now dark on light)
+   ============================================================ */
 .plan-and-date {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  gap: 0.5em;
   margin: 1em 0 5px 0;
-  @media (max-width: 992px) {
-    flex-direction: column;
-  }
-}
-
-.plan-and-date {
+  @media (max-width: 992px) { flex-direction: column; }
   h3 {
     display: inline;
-    margin: 0 0.4em;
-    color: var(--controls-bg-color);
+    margin: 0 0.4em 0 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
   }
 }
 
+.week-start-picker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  margin: 1em 0 5px 0;
+  @media (max-width: 992px) { flex-direction: column; }
+  h3 {
+    display: inline;
+    margin: 0 0.4em 0 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+}
+
+.date-picker-wrapper { z-index: 1000; }
+
+/* ============================================================
+   Calendar grid
+   ============================================================ */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -295,97 +430,54 @@ svg.drag-handle {
   column-gap: 0.5em;
 }
 
-.tools-start {
+.day-header {
+  svg { width: 1em; }
+  div { text-align: center; width: 100%; }
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
   display: flex;
-  justify-content: flex-start;
+  align-content: stretch;
   align-items: center;
-  margin: 5px 0;
+  padding: 2px 4px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-subtle);
+  @media (max-width: 992px) { display: none; }
 }
 
-.tools-middle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  & > h1 {
-    font-weight: 900;
-  }
-  @media (max-width: 576px) {
-    & > h1 {
-      font-size: 1.5em;
-    }
-  }
-  h1 {
+.week-header { height: 100%; }
+.day-cell { height: 100%; }
+
+.week-summary {
+  height: 100%;
+  width: 100%;
+  padding: 8px 6px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-subtle);
+  color: var(--text);
+  @media (max-width: 992px) { position: relative; }
+  p { margin: 0.1em 0; }
+  p:first-child { color: var(--text); font-weight: 600; }
+  img {
+    max-height: 40px;
     display: inline;
-    margin: 0 .4em;
-  }
-}
-
-.tools-end {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 5px 0;
-}
-
-.tool-button {
-  border-radius: 50%;
-  padding: 3px;
-  color: var(--controls-bg-color);
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.tool-button a {
-  & > svg {
-    width: 2em;
-    height: 2em;
-    display: block;
-    margin-left: -2px;
-    margin-right: auto;
-    color: var(--controls-bg-color);
-    &:hover {
-      color: var(--focus-color);
+    @media (max-width: 992px) {
+      position: absolute;
+      top: 8px; left: 8px;
+      max-height: 28px; max-width: 28px;
     }
   }
-}
-
-.tool-button a.active {
-  pointer-events: None;
-  & > svg {
-    fill: var(--disabled-bg-color)
-  }
-}
-
-.app-button {
-  display: inline;
-  font-size: 16px;
-  font-weight: 900;
-  color: var(--text-color);
-  line-height: 1.3;
-  padding: 0.6em 0.8em 0.5em 0.8em;
-  margin: 0 2px;
-  max-width: 100%;
-  border-radius: 0.5em;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: var(--controls-bg-color);
-  border: 1px solid var(--primary-color);
-  &:focus {
-    outline: none;
-  }
-  &:hover {
-    border: 1px solid var(--focus-color);
-    cursor: pointer;
-  }
-  &:disabled {
-    background: var(--disabled-bg-color);
-    color: var(--disabled-fg-color);
-    &:hover {
-      border: 1px solid;
-      cursor: not-allowed;
-    }
+  small, .small {
+    font-size: 78%;
+    font-weight: 500;
+    color: var(--text-muted);
   }
 }
 
@@ -393,105 +485,73 @@ svg.drag-handle {
   height: 100%;
   display: flex;
   flex-direction: column;
-  border-radius: 0.25rem;
+  border-radius: var(--radius-md);
 }
-
 .blank-content {
   height: 100%;
   padding: 5px;
-  border-radius: 0 0 0.25rem 0.25rem;
-  background-color: var(--secondary-color);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-subtle);
+  border: 1px dashed var(--border);
 }
 
 .workout-card {
   height: 100%;
   display: flex;
   flex-direction: column;
-  border-radius: 0.25rem;
-  background-color: var(--card-color);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
   opacity: 1;
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  &:hover { border-color: var(--border-strong); }
 }
-
-.workout-card.dragging {
-  opacity: 0.7;
-}
+.workout-card.dragging { opacity: 0.6; }
 
 .workout-content {
   svg {
     width: 1em;
     position: absolute;
-    top: 2px;
-    left: 4px;
+    top: 4px;
+    left: 5px;
   }
   p {
+    margin: 0 0 0.15em 0;
     white-space: pre-wrap;
-    /* so newlines render correctly for workout text */
   }
   position: relative;
   height: 100%;
-  padding: 0.1em 0.5em 1.5em 1.8em;
-  border-radius: 0 0 0.25rem 0.25rem;
-  @media (min-width: 768px) {
-    min-height: 4em;
-  }
+  padding: 0.35em 0.6em 0.6em 1.7em;
+  @media (min-width: 768px) { min-height: 4em; }
 }
+.workout-title { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+.workout-description { font-weight: 400; font-size: 0.8rem; color: var(--text-muted); }
 
-.workout-title {
-  font-weight: 700;
-  font-size: 1em;
-}
-
-.workout-description {
-  font-weight: 400;
-  font-size: 0.8em;
-}
-
-.week-summary {
-  height: 100%;
-  width: 100%;
-  padding: 5px;
+.dateline {
   text-align: center;
-  border: var(--elt-border);
-  border-radius: 0.25rem;
-  background-color: var(--secondary-color);
-  @media (max-width: 992px) {
-    position: relative;
-  }
-  img {
-    max-height: 64px;
-    display: inline;
-    @media (max-width: 992px) {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      max-height: 32px;
-      max-width: 32px;
-    }
-  }
-  small,
-  .small {
-    font-size: 80%;
-    font-weight: 400;
-  }
+  background-color: var(--surface-subtle);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
-.week-start-picker {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: 1em 0 5px 0;
-  /* color: ${(props) => props.theme.colors.controlsTitle}; */
-  @media (max-width: 992px) {
-    flex-direction: column;
-  }
-  h3 {
-    display: inline;
-    margin: 0 0.4em;
-    color: var(--controls-bg-color);
-  }
+/* drag handle: rects have no fill, so color them directly */
+svg.drag-handle {
+  cursor: grab;
+  rect { fill: var(--gray-300); transition: fill 0.15s ease; }
+  &:hover rect { fill: var(--accent); }
 }
+.dragging { opacity: 0.5; }
 
+/* ============================================================
+   Cards / panels / about / removed-plan message
+   ============================================================ */
 .plan-details {
   display: flex;
   justify-content: center;
@@ -499,61 +559,333 @@ svg.drag-handle {
   flex-wrap: wrap;
   margin: 1em 0 5px 0;
 }
-
 .plan-details-content {
   text-align: center;
   width: 75%;
-  @media (max-width: 992px) {
-    width: 90%;
+  @media (max-width: 992px) { width: 90%; }
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-muted);
+  font-weight: 400;
+  border-radius: var(--radius-lg);
+  padding: 1em 1.25em;
+}
+
+.about-container {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  padding: 1.5em 1.5em 1em;
+  font-weight: 400;
+  color: var(--text);
+  margin: 0 0 1em 0;
+  hr {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid var(--border);
   }
-  background-color: var(--card-color); 
-  border: 3px solid var(--secondary-color);
-  color:  var(--text-color);
-  font-weight: 700;
-  border-radius: 0.5rem;
-  padding: 1em;
-}
-
-.week-header {
-  height: 100%;
-}
-
-.day-cell {
-  height: 100%;
-}
-
-.dateline {
-  text-align: center;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  font-weight: 700;
-  font-size: 0.8em;
-  border-radius: 0.25rem 0.25rem 0 0;
-}
-
-.date-picker-wrapper {
-  z-index: 1000;
-}
-
-.main-ui {
-  margin-top: 2em;
-  padding: 5px;
+  p { margin: 0 0 1rem 0; }
+  h3 { margin-top: 0.2em; font-weight: 600; color: var(--text); }
 }
 
 .plan-removed-message {
   text-align: center;
-  background-color: var(--card-color);
-  border: 3px solid var(--secondary-color);
-  color: var(--text-color);
-  font-weight: 700;
-  font-size: 1.2em;
-  border-radius: 0.5rem;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  color: var(--text);
+  font-weight: 500;
+  font-size: 1.1rem;
+  border-radius: var(--radius-lg);
   padding: 2em;
-  h2 {
-    color: var(--text-color);
-  }
+  h2 { color: var(--text); }
 }
 
 .footer {
-  font-size: .7em;
+  font-size: 0.75rem;
+  color: var(--text-muted);
 }
+
+/* ============================================================
+   Plan comparison
+   ============================================================ */
+.compare-picker { gap: 0.5em; flex-wrap: wrap; }
+.compare-vs-label { font-weight: 600; color: var(--text-muted); }
+
+.plan-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.cmp-metrics {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  background-color: var(--surface-raised);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.cmp-metrics th,
+.cmp-metrics td {
+  padding: 0.55em 0.85em;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.cmp-metrics thead th {
+  background-color: var(--surface-subtle);
+  font-weight: 600;
+  color: var(--text);
+}
+.cmp-metrics tbody tr:last-child td { border-bottom: none; }
+.cmp-metric-label { text-align: left; font-weight: 600; color: var(--text-muted); }
+.cmp-metric-value.cmp-higher {
+  font-weight: 700;
+  color: var(--text);
+  background-color: var(--accent-soft);
+}
+
+.cmp-align-note {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+/* week blocks: each block stacks both plans for one week */
+.cmp-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+}
+.cmp-wk-block {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--surface-raised);
+  box-shadow: var(--shadow-sm);
+}
+.cmp-wk-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5em;
+  padding: 0.35em 0.7em;
+  background-color: var(--surface-subtle);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.cmp-wk-togo { font-weight: 700; color: var(--text); }
+.cmp-wk-dates { opacity: 0.9; }
+
+/* per-plan accent stripe (inset shadow keeps day columns aligned) */
+.cmp-row-a { box-shadow: inset 4px 0 0 var(--accent); }
+.cmp-row-b { box-shadow: inset 4px 0 0 var(--gray-400); }
+.cmp-row + .cmp-row { margin-top: 2px; }
+
+.cmp-week {
+  height: 6em;
+  overflow: hidden;
+}
+.cmp-header {
+  height: auto;
+  overflow: visible;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background-color: var(--surface);
+  padding-bottom: 0.3em;
+}
+.cmp-dow {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cmp-gutter {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cmp-gutter .week-summary { flex: 1; font-size: 0.8rem; }
+.cmp-gutter .week-summary img { max-height: 22px; max-width: 22px; }
+.cmp-plan-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 0.2em 0.15em;
+}
+.cmp-gutter-empty { justify-content: center; }
+.cmp-not-started {
+  grid-column: 2 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--text-subtle);
+}
+
+/* denser read-only day cells inside a comparison row */
+.cmp-day { overflow: hidden; }
+.cmp-day .workout-card { overflow: hidden; box-shadow: none; }
+.cmp-day .workout-content {
+  padding: 0.1em 0.45em 0.45em 0.45em;
+  overflow: hidden;
+  @media (min-width: 768px) { min-height: 0; }
+}
+.cmp-day .workout-title { font-size: 0.8rem; }
+.cmp-day .workout-description { font-size: 0.7rem; }
+
+/* ============================================================
+   Custom plan importer modal
+   ============================================================ */
+.cmp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(20, 24, 29, 0.45);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 6vh 1em;
+  overflow-y: auto;
+}
+.cmp-modal {
+  background-color: var(--surface-raised);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 1.25em 1.5em 1.5em;
+  width: 100%;
+  max-width: 640px;
+}
+.cmp-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+.cmp-modal-head h2 { margin: 0; font-size: 1.2rem; color: var(--text); }
+.cmp-modal-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0.35em 0 0.85em;
+}
+.cmp-modal-hint code {
+  background-color: var(--surface-subtle);
+  border: 1px solid var(--border);
+  padding: 0.05em 0.35em;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+.cmp-modal-textarea {
+  width: 100%;
+  min-height: 14em;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  padding: 0.7em;
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  &::placeholder { color: var(--text-subtle); }
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+}
+.cmp-modal-error {
+  color: var(--signal-down);
+  background-color: var(--signal-down-soft);
+  border: 1px solid color-mix(in srgb, var(--signal-down) 25%, transparent);
+  border-radius: var(--radius-md);
+  padding: 0.55em 0.7em;
+  margin: 0.6em 0 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.cmp-modal-actions {
+  margin-top: 0.85em;
+  display: flex;
+  justify-content: flex-end;
+}
+.cmp-modal-list {
+  margin-top: 1.1em;
+  border-top: 1px solid var(--border);
+  padding-top: 0.6em;
+}
+.cmp-modal-list h3 { margin: 0 0 0.5em; font-size: 0.95rem; color: var(--text); }
+.cmp-modal-list ul { list-style: none; margin: 0; padding: 0; }
+.cmp-modal-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+  padding: 0.3em 0;
+}
+.cmp-modal-list-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+.cmp-modal-list-name small { color: var(--text-muted); }
+.cmp-modal-delete { font-size: 0.8rem; }
+
+/* ============================================================
+   react-datepicker — match the theme
+   ============================================================ */
+.react-datepicker {
+  font-family: var(--font-sans) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-md) !important;
+  background-color: var(--surface-raised) !important;
+  color: var(--text) !important;
+  overflow: hidden;
+}
+.react-datepicker__header {
+  background-color: var(--surface-subtle) !important;
+  border-bottom: 1px solid var(--border) !important;
+  padding-top: 0.6em !important;
+}
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  color: var(--text) !important;
+}
+.react-datepicker__day-name { color: var(--text-muted) !important; }
+.react-datepicker__day:hover { background-color: var(--accent-soft) !important; border-radius: var(--radius-sm) !important; }
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: var(--accent) !important;
+  color: var(--accent-contrast) !important;
+  border-radius: var(--radius-sm) !important;
+}
+.react-datepicker__day--today { font-weight: 700 !important; }
+.react-datepicker__triangle { display: none !important; }
